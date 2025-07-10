@@ -41,11 +41,36 @@ export class EmiComponent {
       },
       error: err => console.error('Failed to fetch EMI data:', err)
     });
+    this.checkDueDates();
   }
   
+  checkDueDates(): void {
+    const today = new Date().toLocaleDateString('en-GB');
+    this.emiService.getEmiSchedule().subscribe({
+      next: data => {
+        data.forEach(item => {
+          if (item.DueDate === today) { 
+            this.sendDueEmail(item);
+          }
+        });
+      },
+      error: err => console.error('Failed to load EMI schedule:', err)
+    });
+  }
 
+  sendDueEmail(item: any): void {
+    const to = 'karanjkarv4@gmail.com';
+    const subject = `EMI Due Today: Installment ${item.Instl}`;
+    const body = `Your EMI of ₹${item.Amount} is due today (${item.DueDate}).`;
+
+    this.emailService.sendEmail(to, subject, body).subscribe({
+      next: () => console.log('Email sent on date:', item.DueDate),
+      error: err => console.error('Email failed:', err)
+    });
+  }
+  // um this is for button click
    sendEmail() {
-    const recipient = 'karanjkarv4@gmail.com'; // get dynamically if needed
+    const recipient = 'karanjkarv4@gmail.com'; 
     const subject = 'EMI Schedule';
     const body = 'Here is your EMI schedule!';
     console.log('Sending email to:', recipient, 'with subject:', subject, 'and body:', body);
