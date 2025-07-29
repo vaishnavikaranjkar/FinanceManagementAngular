@@ -13,4 +13,6 @@ export class EmailService {
   sendEmail(to: string, subject: string, body: string) {
     return this.http.post(this.apiUrl, { to, subject, body });
   }
+
+  
 }

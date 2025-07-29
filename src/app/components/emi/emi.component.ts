@@ -41,6 +41,7 @@ export class EmiComponent {
       },
       error: err => console.error('Failed to fetch EMI data:', err)
     });
+    this.checkDueDateAndNotify();
     this.checkDueDates();
   }
   
@@ -57,6 +58,23 @@ export class EmiComponent {
       error: err => console.error('Failed to load EMI schedule:', err)
     });
   }
+
+  checkDueDateAndNotify() {
+  const today = new Date().toLocaleDateString('en-GB'); // e.g. "29/07/2025"
+  
+  this.http.get<EmiSchedule[]>('assets/emi_schedule.json').subscribe(data => {
+    data.forEach(item => {
+      if (item.DueDate === today) {
+        this.http.post('http://localhost:3000/api/wa/send-emi-wa-notif',{}) // optional data
+          .subscribe({
+            next: res => console.log('WhatsApp sent'),
+            error: err => console.error('WhatsApp failed', err)
+          });
+      }
+    });
+  });
+}
+
 
   sendDueEmail(item: any): void {
     const to = 'karanjkarv4@gmail.com';
