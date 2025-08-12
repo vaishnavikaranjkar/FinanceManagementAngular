@@ -7,6 +7,7 @@ import {MatListModule} from '@angular/material/list';
 import { EmiData } from '../../models/emi-data';
 import { EmailService } from '../../services/email.service';
 import { HttpClient } from '@angular/common/http';
+import { interval, timer } from 'rxjs';
 
 
 @Component({
@@ -26,26 +27,42 @@ export class EmiComponent {
   displayedColumns: string[] = ['Instl', 'DueDate', 'ChequeNum', 'InstlAmt', 'Principal', 'Interest', 'OutstandingPrincipal'];
   readonly panelOpenState = signal(false);
   items: { key: string; value: EmiData; }[] = [];
+  private timerId: any;
   
   constructor(private emiService: EmiService, private emailService: EmailService, private http: HttpClient) { }
 
   ngOnInit() {
-    this.emiService.getEmiSchedule().subscribe({
-      next: data => this.dataSource = data,
-      error: err => console.error('Failed to fetch EMI data:', err)
-    });
+    this.populateEmiSchedule();    
+    this.populateEmiData();
+    this.scheduleDailyEmiCheck();
+  }
 
-    this.emiService.getEmiData().subscribe({
-      next: data => {
-      this.items = Object.entries(data).map(([key, value]) => ({ key, value }));
-      },
-      error: err => console.error('Failed to fetch EMI data:', err)
+  scheduleDailyEmiCheck(): void {
+    const now = new Date();
+    const nineAM = new Date();
+    nineAM.setHours(9, 0, 0, 0);
+
+    if (now > nineAM) {
+      console.log('⚠️ Missed today’s 9 AM — running now...');
+      this.checkDueDateAndNotify();
+
+      // Schedule next 9 AM tomorrow
+      nineAM.setDate(nineAM.getDate() + 1);
+    } 
+    const firstDelay = nineAM.getTime() - now.getTime();
+
+    // First timer runs at next 9 AM
+    timer(firstDelay).subscribe(() => {
+      this.checkDueDateAndNotify();
+
+      // After first run, repeat every 24h
+      interval(24 * 60 * 60 * 1000).subscribe(() => {
+        this.checkDueDateAndNotify();
+        });
     });
-    this.checkDueDateAndNotify();
-    this.checkDueDates();
   }
   
-  checkDueDates(): void {
+  checkDueDateAndNotify(): void {
     const today = new Date().toLocaleDateString('en-GB');
     this.emiService.getEmiSchedule().subscribe({
       next: data => {
@@ -59,33 +76,39 @@ export class EmiComponent {
     });
   }
 
-  checkDueDateAndNotify() {
-  const today = new Date().toLocaleDateString('en-GB'); // e.g. "29/07/2025"
-  
-  this.http.get<EmiSchedule[]>('assets/emi_schedule.json').subscribe(data => {
-    data.forEach(item => {
-      if (item.DueDate === today) {
-        this.http.post('http://localhost:3000/api/wa/send-emi-wa-notif',{}) // optional data
-          .subscribe({
-            next: res => console.log('WhatsApp sent'),
-            error: err => console.error('WhatsApp failed', err)
-          });
-      }
-    });
-  });
-}
-
-
   sendDueEmail(item: any): void {
     const to = 'karanjkarv4@gmail.com';
     const subject = `EMI Due Today: Installment ${item.Instl}`;
-    const body = `Your EMI of ₹${item.Amount} is due today (${item.DueDate}).`;
+    const body = `Your EMI of ₹${item.InstlAmt} is due today (${item.DueDate}).`;
 
     this.emailService.sendEmail(to, subject, body).subscribe({
       next: () => console.log('Email sent on date:', item.DueDate),
       error: err => console.error('Email failed:', err)
     });
   }
+
+  populateEmiData(): void {
+    this.emiService.getEmiData().subscribe({
+      next: data => {
+      this.items = Object.entries(data).map(([key, value]) => ({ key, value }));
+      },
+      error: err => console.error('Failed to fetch EMI data:', err)
+    });
+  }
+
+  populateEmiSchedule(): void {
+    this.emiService.getEmiSchedule().subscribe({
+      next: data => this.dataSource = data,
+      error: err => console.error('Failed to fetch EMI data:', err)
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+    }
+  }
+
   // um this is for button click
    sendEmail() {
     const recipient = 'karanjkarv4@gmail.com'; 
