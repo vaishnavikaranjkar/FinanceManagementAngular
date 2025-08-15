@@ -37,6 +37,23 @@ export class EmiComponent {
     this.scheduleDailyEmiCheck();
   }
 
+  insertNextEmiRow(data: any[]) {
+    const today = new Date();
+    const todayStr = today.toLocaleDateString('en-GB'); // dd/MM/yyyy
+
+    // Find the next EMI after today
+    const nextEmiIndex = data.findIndex(item => {
+      const dueDate = new Date(item.DueDate.split('/').reverse().join('-'));
+      return dueDate >= today;
+    });
+
+    if (nextEmiIndex !== -1) {
+      const specialRow = { 'DueDate': 'Next EMI 👇👇👇' };
+      data.splice(nextEmiIndex, 0, specialRow);
+    }
+    return data;
+  }
+
   scheduleDailyEmiCheck(): void {
     const now = new Date();
     const nineAM = new Date();
@@ -99,8 +116,9 @@ export class EmiComponent {
   populateEmiSchedule(): void {
     this.emiService.getEmiSchedule().subscribe({
       next: data => this.dataSource = data,
-      error: err => console.error('Failed to fetch EMI data:', err)
+      error: err => console.error('Failed to fetch EMI schedule:', err)
     });
+    this.insertNextEmiRow(this.dataSource);
   }
 
   ngOnDestroy(): void {
@@ -108,18 +126,4 @@ export class EmiComponent {
       clearTimeout(this.timerId);
     }
   }
-
-  // um this is for button click
-   sendEmail() {
-    const recipient = 'karanjkarv4@gmail.com'; 
-    const subject = 'EMI Schedule';
-    const body = 'Here is your EMI schedule!';
-    console.log('Sending email to:', recipient, 'with subject:', subject, 'and body:', body);
-
-    this.emailService.sendEmail(recipient, subject, body).subscribe({
-      next: response => console.log('Email sent:', response),
-      error: error => console.error('Error sending email:', error),
-    });
-  }
-
 }
