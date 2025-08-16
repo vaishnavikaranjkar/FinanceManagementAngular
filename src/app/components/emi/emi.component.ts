@@ -27,7 +27,7 @@ export class EmiComponent {
   displayedColumns: string[] = ['Instl', 'DueDate', 'ChequeNum', 'InstlAmt', 'Principal', 'Interest', 'OutstandingPrincipal'];
   readonly panelOpenState = signal(false);
   items: { key: string; value: EmiData; }[] = [];
-  private timerId: any;
+  timerId: any;
   
   constructor(private emiService: EmiService, private emailService: EmailService, private http: HttpClient) { }
 
@@ -39,8 +39,6 @@ export class EmiComponent {
 
   insertNextEmiRow(data: any[]) {
     const today = new Date();
-    const todayStr = today.toLocaleDateString('en-GB'); // dd/MM/yyyy
-
     // Find the next EMI after today
     const nextEmiIndex = data.findIndex(item => {
       const dueDate = new Date(item.DueDate.split('/').reverse().join('-'));

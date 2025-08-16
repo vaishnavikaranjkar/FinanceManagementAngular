@@ -1,0 +1,9 @@
+[
+  {"depositDate":"13/08/2025","maturityDate":"31/10/2026","roi":"6.6","duration":"444 days","principalAmount":"60000","maturityAmount":"64974"},
+  {"depositDate":"05/08/2025","maturityDate":"23/10/2026","roi":"6.6","duration":"444 days","principalAmount":"70000","maturityAmount":"75803"},
+  {"depositDate":"06/07/2025","maturityDate":"23/09/2026","roi":"6.6","duration":"444 days","principalAmount":"80000","maturityAmount":"86632"},
+  {"depositDate":"02/04/2025","maturityDate":"20/06/2026","roi":"7.25","duration":"444 days","principalAmount":"75000","maturityAmount":"81852"},
+  {"depositDate":"11/02/2025","maturityDate":"11/03/2026","roi":"6.8","duration":"393 days","principalAmount":"25000","maturityAmount":"26883"},
+  {"depositDate":"01/12/2024","maturityDate":"01/01/2026","roi":"6.8","duration":"1 Month 0 Day","principalAmount":"25000","maturityAmount":"26898"},
+  {"depositDate":"29/09/2022","maturityDate":"29/10/2025","roi":"5.6","duration":"3 Year(s) 1 Month(s) 0 Day(s)","principalAmount":"100000","maturityAmount":"118700"}
+]
