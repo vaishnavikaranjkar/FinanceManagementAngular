@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
-import { FdData } from '../../models/fd-data';
+import { ErdData } from '../../models/erd-data';
 
 @Component({
-  selector: 'app-fd',
+  selector: 'app-erd',
   standalone: true,
   imports: [MatExpansionModule, MatTableModule],
-  templateUrl: './fd.component.html',
-  styleUrl: './fd.component.scss'
+  templateUrl: './erd.component.html',
+  styleUrl: './erd.component.scss'
 })
-export class FdComponent implements OnInit {
-  dataSource: any[] = [];
+export class ErdComponent {
+dataSource: any[] = [];
   displayedColumns: string[] = [
     'depositDate',
     'maturityDate',
@@ -22,16 +22,16 @@ export class FdComponent implements OnInit {
     'maturityAmount',
     'interestAmount'
   ];
-  fdDataUrl = 'assets/fd.json';
+  erdDataUrl = 'assets/erd.json';
 
   constructor(private http: HttpClient) { }
   //convertDurationToDays
   ngOnInit() {
-    this.getFdData();
+    this.getErdData();
   }
 
-  getFdData(): void {
-    this.http.get<FdData[]>(this.fdDataUrl).subscribe(data => {
+  getErdData(): void {
+    this.http.get<ErdData[]>(this.erdDataUrl).subscribe(data => {
       this.dataSource = data,
       this.dataSource.sort((a, b) => {
         const dateA = new Date(a.maturityDate.split('/').reverse().join('-'));

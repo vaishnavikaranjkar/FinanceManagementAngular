@@ -1,0 +1,26 @@
+<h1>ERDs</h1>
+<mat-accordion>
+  @for (data of dataSource; track $index) {
+  <mat-expansion-panel hideToggle [expanded]="$index === 0">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        ERD Amount - {{ data.principalAmount }}
+      </mat-panel-title>
+      <mat-panel-description>
+        Maturity Date: {{ data.maturityDate }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <table mat-table [dataSource]="[data]" class="mat-elevation-z8">
+      @for (col of displayedColumns; track $index) {
+      <ng-container [matColumnDef]="col">
+        <th mat-header-cell *matHeaderCellDef>{{ col }}</th>
+        <td mat-cell *matCellDef="let fd">{{ fd[col] }}</td>
+      </ng-container>
+      }
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-expansion-panel>
+  }
+</mat-accordion>
+
