@@ -113,10 +113,9 @@ export class EmiComponent {
 
   populateEmiSchedule(): void {
     this.emiService.getEmiSchedule().subscribe({
-      next: data => this.dataSource = data,
+      next: data => {this.dataSource = data, this.insertNextEmiRow(this.dataSource);},
       error: err => console.error('Failed to fetch EMI schedule:', err)
     });
-    this.insertNextEmiRow(this.dataSource);
   }
 
   ngOnDestroy(): void {

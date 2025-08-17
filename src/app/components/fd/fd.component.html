@@ -1,7 +1,7 @@
 <h1>FDs</h1>
 <mat-accordion>
   @for (data of dataSource; track $index) {
-  <mat-expansion-panel hideToggle>
+  <mat-expansion-panel hideToggle [expanded]="$index === 0">
     <mat-expansion-panel-header>
       <mat-panel-title>
         FD Amount - {{ data.principalAmount }}

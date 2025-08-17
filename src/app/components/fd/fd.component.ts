@@ -31,17 +31,17 @@ export class FdComponent implements OnInit {
   }
 
   getFdData(): void {
-    this.http.get<FdData[]>(this.fdDataUrl).subscribe(data =>
+    this.http.get<FdData[]>(this.fdDataUrl).subscribe(data => {
       this.dataSource = data,
-    );
-    this.dataSource.sort((a, b) => {
-      const dateA = new Date(a.maturityDate.split('/').reverse().join('-'));
-      const dateB = new Date(b.maturityDate.split('/').reverse().join('-'));
-      return dateA.getTime() - dateB.getTime();
+      this.dataSource.sort((a, b) => {
+        const dateA = new Date(a.maturityDate.split('/').reverse().join('-'));
+        const dateB = new Date(b.maturityDate.split('/').reverse().join('-'));
+        return dateA.getTime() - dateB.getTime();
+      });
+      this.dataSource.forEach(item => {
+        item.interestAmount = (parseFloat(item.maturityAmount) - parseFloat(item.principalAmount)).toFixed(2);
+      });
+      console.log('FD Data:', this.dataSource);
     });
-    this.dataSource.forEach(item => {
-      item.interestAmount = (parseFloat(item.maturityAmount) - parseFloat(item.principalAmount)).toFixed(2);
-    });
-    console.log('FD Data:', this.dataSource);
   }
 }
