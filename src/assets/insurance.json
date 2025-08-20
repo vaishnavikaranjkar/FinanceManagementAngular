@@ -1,0 +1,6 @@
+[
+    { "insuranceName": "Aditya Birla Health Insurance", "coverage": "Till the duration of WGS employment", "premium": "Paid by WGS", "sumInsured": 500000},
+    { "insuranceName": "HDFC ERGO Car Insurance - Sarv Suraksha Plus (Group) policy", "coverage": "1 year (Need to renew every year)", "premium": "50339 One Time","sumInsured":1960500 },
+    { "insuranceName": "Star Health and Allied Insurance - Family Health Optima Insurance Plan", "coverage": "-", "premium": "24149 Annually", "sumInsured": 500000},
+    { "insuranceName": "SBI General Insurance", "coverage": "1 year (Need to renew every year)", "premium": "1000 Annually", "sumInsured": 2000000}
+]

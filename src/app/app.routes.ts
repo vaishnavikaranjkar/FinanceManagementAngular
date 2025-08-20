@@ -5,6 +5,7 @@ import { FdComponent } from './components/fd/fd.component';
 import { ErdComponent } from './components/erd/erd.component';
 import { GoldComponent } from './components/gold/gold.component';
 import { BillsComponent } from './components/bills/bills.component';
+import { InsuranceComponent } from './components/insurance/insurance.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -14,5 +15,6 @@ export const routes: Routes = [
     { path: 'erd', component: ErdComponent }, 
     { path: 'gold', component: GoldComponent },
     { path: 'bills', component: BillsComponent },
+    { path: 'insurance', component: InsuranceComponent}
 ];
 
