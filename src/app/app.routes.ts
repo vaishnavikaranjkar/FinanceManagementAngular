@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { FdComponent } from './components/fd/fd.component';
 import { ErdComponent } from './components/erd/erd.component';
 import { GoldComponent } from './components/gold/gold.component';
+import { BillsComponent } from './components/bills/bills.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -11,6 +12,7 @@ export const routes: Routes = [
     { path: 'emi', component: EmiComponent },           
     { path: 'fd', component: FdComponent },
     { path: 'erd', component: ErdComponent }, 
-    { path: 'gold', component: GoldComponent}
+    { path: 'gold', component: GoldComponent },
+    { path: 'bills', component: BillsComponent },
 ];
 

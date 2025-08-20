@@ -1,0 +1,11 @@
+[
+    { "name": "Electricity Bill", "amount": 1000, "dueDate": "2023-10-20", "user": "DSK" },
+    { "name": "Society Maintenance Bill", "amount": 1000, "dueDate": "2023-10-25", "user":"DSK" },
+    { "name": "Gas Bill", "amount": 1400, "dueDate": "2023-10-30", "user":"ADK" },
+    { "name": "Milk Bill", "amount": 1500, "dueDate": "2023-11-30", "user": "ADK" },
+    { "name": "Internet Bill", "amount": 1000, "dueDate": "2023-11-05", "user": "VDK" },
+    { "name": "Phone Bill", "amount": 500, "dueDate": "2023-11-10", "user": "VDK" },
+    { "name": "Amazon Subscription Bill", "amount": 750, "dueDate": "2023-11-25", "user": "VDK" },
+    { "name": "Netflix Subscription Bill", "amount": 200, "dueDate": "2023-11-30", "user": "RDK" },
+    { "name": "Spotify Subscription Bill", "amount": 180, "dueDate": "2023-11-30", "user": "RDK" }
+]

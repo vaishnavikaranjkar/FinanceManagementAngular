@@ -1,0 +1,15 @@
+.user-card {
+  width: 300px;
+  padding: 1%;
+  margin: 1%;
+  display: inline-block;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.dev/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+mat-expansion-panel-header{
+  padding: 3%;
+}

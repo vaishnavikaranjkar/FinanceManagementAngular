@@ -1,0 +1,33 @@
+<div class="main-body">
+  @for (entry of mappedBills; track $index) {
+  <mat-card class="user-card" appearance="outlined">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{ entry[0] }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-accordion>
+        <!-- one expansion panel per bill -->
+        @for (bill of entry[1]; track $index) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ bill.name }}
+            </mat-panel-title>
+            <mat-panel-description> ₹{{ bill.amount }} </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <p><strong>Due Date:</strong> {{ bill.dueDate }}</p>
+          <p><strong>User:</strong> {{ bill.user }}</p>
+          <mat-card-actions>
+            <button mat-button>Undone</button>
+            <button mat-button>Mark as Done</button>
+          </mat-card-actions>
+        </mat-expansion-panel>
+        }
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+  }
+</div>
